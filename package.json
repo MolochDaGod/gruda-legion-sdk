@@ -1,0 +1,18 @@
+{
+  "name": "gruda-legion-sdk",
+  "version": "1.0.0",
+  "description": "GRUDA Legion SDK — Client libraries for ai.grudge-studio.com AI hub with Puter.js integration",
+  "main": "index.js",
+  "browser": "src/legion.js",
+  "files": ["src/", "index.js", "README.md"],
+  "scripts": {
+    "test": "node examples/node-example.js"
+  },
+  "keywords": ["grudge", "ai", "legion", "puter", "game-dev", "cloudflare-workers"],
+  "author": "Racalvin The Pirate King <grudge-studio>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MolochDaGod/gruda-legion-sdk.git"
+  }
+}

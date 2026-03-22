@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GRUDA Legion + Puter.js Demo</title>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #e0e0e0; max-width: 700px; margin: 40px auto; padding: 20px; }
+    h1 { color: #d4af37; }
+    textarea { width: 100%; height: 80px; background: #1a1a2e; color: #e0e0e0; border: 1px solid #333; padding: 10px; border-radius: 6px; }
+    button { padding: 10px 20px; background: #d4af37; color: #0a0a0f; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 5px; }
+    button:hover { background: #e5c547; }
+    #output { margin-top: 20px; padding: 15px; background: #1a1a2e; border-radius: 6px; white-space: pre-wrap; min-height: 60px; }
+    .role-btn { font-size: 12px; padding: 6px 12px; }
+    footer { margin-top: 40px; text-align: center; font-size: 12px; color: #666; }
+    footer a { color: #d4af37; }
+  </style>
+</head>
+<body>
+  <h1>GRUDA Legion AI Hub</h1>
+  <p>Legion primary → Puter AI fallback → KV cache</p>
+
+  <textarea id="input" placeholder="Ask the Legion anything...">Generate a dark fantasy quest for a level 10 warrior</textarea>
+  <div>
+    <button onclick="send('general')">General</button>
+    <button class="role-btn" onclick="send('lore')">Lore</button>
+    <button class="role-btn" onclick="send('dev')">Dev</button>
+    <button class="role-btn" onclick="send('art')">Art</button>
+    <button class="role-btn" onclick="send('mission')">Mission</button>
+    <button class="role-btn" onclick="send('companion')">Companion</button>
+    <button class="role-btn" onclick="send('balance')">Balance</button>
+    <button class="role-btn" onclick="send('faction')">Faction</button>
+  </div>
+  <div id="output">Waiting...</div>
+
+  <footer>
+    <a href="https://grudge-studio.com">Grudge Studio</a> •
+    <a href="https://developer.puter.com">Powered by Puter</a>
+  </footer>
+
+  <!-- Puter.js SDK -->
+  <script src="https://js.puter.com/v2/"></script>
+  <!-- Legion SDK -->
+  <script src="../src/legion.js"></script>
+  <script src="../src/puter-legion.js"></script>
+  <script>
+    // Initialize with your API key
+    // In production, prompt user or use env config
+    const ai = new PuterLegion({
+      apiKey: 'YOUR_LEGION_API_KEY',
+      puterFallback: true,     // Fall back to Puter AI if Legion is down
+      puterModel: 'claude',    // Puter fallback model (user pays)
+      enableCache: true,       // Cache responses in Puter KV
+      cacheTTL: 600,           // 10 min cache
+    });
+
+    async function send(role) {
+      const input = document.getElementById('input').value;
+      const output = document.getElementById('output');
+      output.textContent = `Asking ${role} agent...`;
+
+      try {
+        const result = await ai.chat(input, { role });
+        output.textContent = `[${result.source} → ${result.provider}]\n\n${result.response}`;
+      } catch (err) {
+        output.textContent = `Error: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
