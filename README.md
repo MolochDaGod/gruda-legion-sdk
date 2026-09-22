@@ -94,7 +94,7 @@ await legion.agent('lore', 'Describe the Pirate King fortress');
 | Method | Description |
 |--------|-------------|
 | `chat(message, {role, cache})` | Chat with Legion → Puter fallback chain |
-| `generateImage(prompt)` | Image gen with Puter txt2img fallback |
+| `generateImage(prompt)` | Image generation (Legion SDXL only) |
 | `saveData(key, value)` | Save to Puter KV (prefixed `grudge_`) |
 | `loadData(key)` | Load from Puter KV |
 | `deleteData(key)` | Delete from Puter KV |

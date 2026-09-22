@@ -119,26 +119,18 @@ class PuterLegion {
   async faction(msg, opts) { return this.chat(msg, { ...opts, role: 'faction' }); }
 
   // ════════════════════════════════════════════════════════════
-  //  Image Generation (Legion primary → Puter txt2img fallback)
+  //  Image Generation (Legion SDXL only)
   // ════════════════════════════════════════════════════════════
 
   /**
-   * Generate an image. Legion SDXL primary, Puter txt2img fallback.
+   * Generate an image using Legion SDXL. Puter image generation disabled.
    * @param {string} prompt
-   * @returns {Promise<{blob: Blob, url: string, source: 'legion'|'puter-fallback'}>}
+   * @returns {Promise<{blob: Blob, url: string, source: 'legion'}>}
    */
   async generateImage(prompt) {
-    try {
-      const blob = await this.legion.generateImage(prompt);
-      const url = URL.createObjectURL(blob);
-      return { blob, url, source: 'legion' };
-    } catch (err) {
-      if (this.config.puterFallback && this._hasPuter) {
-        const img = await puter.ai.txt2img(prompt);
-        return { blob: null, element: img, url: img?.src || null, source: 'puter-fallback' };
-      }
-      throw err;
-    }
+    const blob = await this.legion.generateImage(prompt);
+    const url = URL.createObjectURL(blob);
+    return { blob, url, source: 'legion' };
   }
 
   // ════════════════════════════════════════════════════════════
